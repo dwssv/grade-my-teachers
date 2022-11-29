@@ -1,0 +1,24 @@
+{
+  "name": "grade-my-teachers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dwssv/grade-my-teachers.git"
+  },
+  "author": "Dungwang Srisa-ard",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dwssv/grade-my-teachers/issues"
+  },
+  "homepage": "https://github.com/dwssv/grade-my-teachers#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.3"
+  }
+}
