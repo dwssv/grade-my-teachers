@@ -1,6 +1,4 @@
-const { captureRejectionSymbol } = require('events')
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
 const path = require('path')
 const Rating = require('./models/rating')
@@ -14,6 +12,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/rate-my-teachers')
 const db = mongoose.connection
 db.on('error', console.error.bind(console, "connection error:"))
 db.once('open', () => console.log('database connected'))
+
+const app = express()
 
 app.set('view engine', 'ejs')
 // views directory is set to the current working directory (process.cwd()) by default

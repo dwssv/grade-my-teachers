@@ -1,0 +1,23 @@
+module.exports = [
+    'Central',
+    'Hawkings',
+    'Paramount',
+    'Valley',
+    'Riverbank',
+    'Oceania',
+    'Columbus',
+    'Saint Gabriel',
+    'Christian',
+    'Traill',
+    'River',
+    'Creek',
+    'Creekside',
+    'Bay',
+    'Concordian',
+    'Advent',
+    'Vista',
+    'Westside',
+    'Eastview',
+    'Andrews',
+    'Kings'
+]
