@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Ratings</title>
+</head>
+<body>
+    <h1>Add a new rating</h1>
+    <form action="/ratings" method="POST">
+        <div>
+            <label for="teacher">Teacher Name</label>
+            <input type="text" name="rating[teacher]" id="teacher" />
+        </div>
+        <div>
+            <label for="school">School Name</label>
+            <input type="text" name="rating[school]" id="school" />
+        </div>
+        <div>
+            <label for="course">Course Code</label>
+            <input type="text" name="rating[course]" id="course" />
+        </div>
+        <div>
+            <label for="comment">Comment</label>
+            <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
+        </div>
+        <div>
+            <label for="quality">Quality Rating</label>
+            <input type="text" name="rating[quality]" id="quality" />
+        </div>
+        <div>
+            <label for="difficulty">Difficulty Rating</label>
+            <input type="text" name="rating[difficulty]" id="difficulty" />
+        </div>
+        <button>Submit rating</button>
+    </form>
+</body>
+</html>

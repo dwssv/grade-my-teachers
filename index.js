@@ -1,6 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
+const methodOverride = require('method-override')
+
 const Rating = require('./models/rating')
 
 // handle initial connection error
@@ -20,21 +22,54 @@ app.set('view engine', 'ejs')
 // joining current directory name of the index file "__dirname" to "/views" enables us to run our app from anywhere because the path to view will be relative to our cwd
 app.set('views', path.join(__dirname, '/views'))
 
+// middleware to parse incomming (POST, PUT) request 
+app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
+
 app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/addrating', async (req, res) => {
-    const rate = new Rating({
-        teacher: 'Geoffrey McGraw',
-        school: 'Piboonbumpen Demonstration School, Burapha University',
-        course: 'E33102',
-        comment: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.',
-        quality: 5,
-        difficulty: 3
-    })
-    await rate.save()
-    res.send(rate)
+// show all ratings
+app.get('/ratings', async (req, res) => {
+    const ratings = await Rating.find({})
+    res.render('ratings/index', { ratings })
+})
+
+// page to add new rating
+app.get('/ratings/new', (req, res) => {
+    res.render('ratings/new')
+})
+
+app.post('/ratings', async (req, res) => {
+    const rating = new Rating(req.body.rating)
+    await rating.save()
+    res.redirect(`/ratings/${rating._id}`)
+})
+
+app.get('/ratings/:id/edit', async (req, res) => {
+    const { id } = req.params
+    const rating = await Rating.findById(id)
+    res.render('ratings/edit', { rating })
+})
+
+app.put('/ratings/:id', async (req, res) => {
+    const { id } = req.params
+    const rating = await Rating.findByIdAndUpdate(id, req.body.rating)
+    res.redirect(`/ratings/${rating._id}`)
+})
+
+// show individual ratings
+app.get('/ratings/:id', async (req, res) => {
+    const { id } = req.params
+    const rating = await Rating.findById(id)
+    res.render('ratings/show', { rating })
+})
+
+app.delete('/ratings/:id', async (req, res) => {
+    const { id } = req.params
+    await Rating.findByIdAndDelete(id)
+    res.redirect('/ratings')
 })
 
 app.listen(3000, () => {
