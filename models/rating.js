@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const RatingSchema = new Schema({
     teacher: String,
     school: String,
-    course: String,
+    department: String,
     comment: String,
     quality: Number,
     difficulty: Number

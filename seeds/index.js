@@ -4,7 +4,8 @@ const descriptors = require('./descriptors')
 const prefixes = require('./prefixes')
 const firstnames = require('./firstnames')
 const surnames = require('./surnames')
-const { courseNum } = require('./courses')
+// const { courseNum } = require('./courses')
+const departments = require('./departments')
 
 mongoose.connect('mongodb://127.0.0.1:27017/rate-my-teachers')
 
@@ -21,7 +22,7 @@ const seedDB = async () => {
         const rating = new Rating({
             teacher: `${sample(firstnames)} ${sample(surnames)}`,
             school: `${sample(prefixes)} ${sample(descriptors)} School`,
-            course: courseNum(),
+            department: sample(departments),
             comment: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ipsum est ipsa molestiae illo quod, iure non labore, earum quia excepturi, consectetur cumque necessitatibus quos atque consequatur incidunt totam nihil!',
             quality: Math.floor(Math.random() * 5) + 1,
             difficulty: Math.floor(Math.random() * 5) + 1
