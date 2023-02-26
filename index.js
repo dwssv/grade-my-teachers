@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
+const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
 
 const Rating = require('./models/rating')
@@ -17,6 +18,7 @@ db.once('open', () => console.log('database connected'))
 
 const app = express()
 
+app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs')
 // views directory is set to the current working directory (process.cwd()) by default
 // joining current directory name of the index file "__dirname" to "/views" enables us to run our app from anywhere because the path to view will be relative to our cwd
