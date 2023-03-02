@@ -5,6 +5,7 @@ const ejsMate = require('ejs-mate')
 const methodOverride = require('method-override')
 
 const Rating = require('./models/rating')
+const departments = require('./seeds/departments')
 
 // handle initial connection error
 mongoose.connect('mongodb://127.0.0.1:27017/rate-my-teachers')
@@ -40,7 +41,7 @@ app.get('/ratings', async (req, res) => {
 
 // page to add new rating
 app.get('/ratings/new', (req, res) => {
-    res.render('ratings/new')
+    res.render('ratings/new', {departments})
 })
 
 app.post('/ratings', async (req, res) => {

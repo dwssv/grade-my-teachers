@@ -1,29 +1,38 @@
 <% layout('layouts/boilerplate') %>
-    <h1>Add a new rating</h1>
-    <form action="/ratings" method="POST">
-        <div>
-            <label for="teacher">Teacher Name</label>
-            <input type="text" name="rating[teacher]" id="teacher" />
+    <div class="row mb-5">
+        <h1 class="text-center">Add a Rating</h1>
+        <div class="col-6 offset-3">
+            <form action="/ratings" method="POST">
+                <div class="mb-3">
+                    <label class="form-label" for="school">Name of School</label>
+                    <input class="form-control" type="text" name="rating[school]" id="school" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="teacher">Teacher's Name</label>
+                    <input class="form-control" type="text" name="rating[teacher]" id="teacher" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="course">Department</label>
+                    <select class="form-select" type="text" name="rating[department]" id="department">
+                        <option selected>-- Open this select menu --</option>
+                        <% for (let d of departments) { %>
+                            <option value="<%= d %>"><%= d %></option>
+                        <% } %>
+                      </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="comment">Comment</label>
+                    <textarea class="form-control" name="rating[comment]" id="comment"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="quality">Quality Rating</label>
+                    <input class="form-control" type="text" name="rating[quality]" id="quality" />
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="difficulty">Difficulty Rating</label>
+                    <input class="form-control" type="text" name="rating[difficulty]" id="difficulty" />
+                </div class="mb-3 ">
+                <button type="submit" class="btn btn-primary" >Add Rating</button>
+            </form>
         </div>
-        <div>
-            <label for="school">School Name</label>
-            <input type="text" name="rating[school]" id="school" />
-        </div>
-        <div>
-            <label for="course">Course Code</label>
-            <input type="text" name="rating[course]" id="course" />
-        </div>
-        <div>
-            <label for="comment">Comment</label>
-            <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
-        </div>
-        <div>
-            <label for="quality">Quality Rating</label>
-            <input type="text" name="rating[quality]" id="quality" />
-        </div>
-        <div>
-            <label for="difficulty">Difficulty Rating</label>
-            <input type="text" name="rating[difficulty]" id="difficulty" />
-        </div>
-        <button>Submit rating</button>
-    </form>
+    </div>
