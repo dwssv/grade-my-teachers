@@ -53,7 +53,7 @@ app.post('/ratings', async (req, res) => {
 app.get('/ratings/:id/edit', async (req, res) => {
     const { id } = req.params
     const rating = await Rating.findById(id)
-    res.render('ratings/edit', { rating })
+    res.render('ratings/edit', { rating, departments })
 })
 
 app.put('/ratings/:id', async (req, res) => {
