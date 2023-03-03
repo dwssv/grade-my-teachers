@@ -31,9 +31,10 @@
                 <label class="form-label" for="difficulty">Difficulty Rating</label>
                 <input class="form-control" type="text" name="rating[difficulty]" id="difficulty" value="<%= rating.difficulty %>"/>
             </div class="mb-3 ">
-            <button type="submit" class="btn btn-primary">Edit Rating</button>
+            <button type="submit" class="d-inline btn btn-primary">Edit Rating</button>
+            <form class="d-inline" action="/ratings/<%= rating._id %>">
+                <button class="btn btn-success">Back</button>
+            </form>
         </form>
-    </div>
+    </div>  
 </div>
-
-// note: left off at adding select for edit form
