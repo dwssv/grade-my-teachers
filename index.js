@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
 const catchAsync = require('./utils/catchAsync')
-// const ExpressError = require('./utils/ExpressError ')
+const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const Rating = require('./models/rating')
 const departments = require('./seeds/departments')
@@ -46,6 +46,7 @@ app.get('/ratings/new', (req, res) => {
 })
 
 app.post('/ratings', catchAsync(async (req, res) => {
+    if (!req.body.rating) throw new ExpressError('Invalid Campground Data', 400)
     const rating = new Rating(req.body.rating)
     await rating.save()
     res.redirect(`/ratings/${rating._id}`)
@@ -70,15 +71,23 @@ app.get('/ratings/:id', catchAsync(async (req, res) => {
     res.render('ratings/show', { rating })
 }))
 
-app.use((err, req, res, next) => {
-     res.send('Something went wrong')
-})
-
 app.delete('/ratings/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     await Rating.findByIdAndDelete(id)
     res.redirect('/ratings')
 }))
+
+app.all('*', (req, res, next) => {
+    next(new ExpressError('Page Not Found', 404))
+})
+
+app.use((err, req, res, next) => {
+    const {statusCode = 500} = err
+    if (!err.message) {
+        err.message = 'Something went wrong'
+    }
+    res.status(statusCode).render('error', { err })
+})
 
 app.listen(3000, () => {
     console.log('serving on port 3000')
