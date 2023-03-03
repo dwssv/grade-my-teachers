@@ -2,8 +2,9 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
+const catchAsync = require('./utils/catchAsync')
+// const ExpressError = require('./utils/ExpressError ')
 const methodOverride = require('method-override')
-
 const Rating = require('./models/rating')
 const departments = require('./seeds/departments')
 
@@ -34,46 +35,50 @@ app.get('/', (req, res) => {
 })
 
 // show all ratings
-app.get('/ratings', async (req, res) => {
+app.get('/ratings', catchAsync(async (req, res) => {
     const ratings = await Rating.find({})
     res.render('ratings/index', { ratings })
-})
+}))
 
 // page to add new rating
 app.get('/ratings/new', (req, res) => {
     res.render('ratings/new', {departments})
 })
 
-app.post('/ratings', async (req, res) => {
+app.post('/ratings', catchAsync(async (req, res) => {
     const rating = new Rating(req.body.rating)
     await rating.save()
     res.redirect(`/ratings/${rating._id}`)
-})
+}))
 
-app.get('/ratings/:id/edit', async (req, res) => {
+app.get('/ratings/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params
     const rating = await Rating.findById(id)
     res.render('ratings/edit', { rating, departments })
-})
+}))
 
-app.put('/ratings/:id', async (req, res) => {
+app.put('/ratings/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     const rating = await Rating.findByIdAndUpdate(id, req.body.rating)
     res.redirect(`/ratings/${rating._id}`)
-})
+}))
 
 // show individual ratings
-app.get('/ratings/:id', async (req, res) => {
+app.get('/ratings/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     const rating = await Rating.findById(id)
     res.render('ratings/show', { rating })
+}))
+
+app.use((err, req, res, next) => {
+     res.send('Something went wrong')
 })
 
-app.delete('/ratings/:id', async (req, res) => {
+app.delete('/ratings/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     await Rating.findByIdAndDelete(id)
     res.redirect('/ratings')
-})
+}))
 
 app.listen(3000, () => {
     console.log('serving on port 3000')
