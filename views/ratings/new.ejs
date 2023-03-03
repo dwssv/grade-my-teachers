@@ -2,37 +2,69 @@
     <div class="row mb-5">
         <h1 class="text-center">Add a Rating</h1>
         <div class="col-6 offset-3">
-            <form action="/ratings" method="POST" novalidate>
+            <form action="/ratings" method="POST" novalidate class="needs-validation">
                 <div class="mb-3">
                     <label class="form-label" for="school">Name of School</label>
                     <input class="form-control" type="text" name="rating[school]" id="school" required/>
+                    <div class="invalid-feedback">School's name must be at least two letters long</div>
+                    <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="teacher">Teacher's Name</label>
                     <input class="form-control" type="text" name="rating[teacher]" id="teacher" required/>
+                    <div class="invalid-feedback">Teacher's name must be at least two letters long</div>
+                    <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="course">Department</label>
                     <select class="form-select" type="text" name="rating[department]" id="department" required>
-                        <option selected>-- Open this select menu --</option>
+                        <option disabled selected value>-- Open this select menu --</option>
                         <% for (let d of departments) { %>
                             <option value="<%= d %>"><%= d %></option>
                         <% } %>
-                      </select>
+                    </select>
+                    <div class="invalid-feedback">Department must be selected</div>
+                    <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="comment">Comment</label>
-                    <textarea class="form-control" name="rating[comment]" id="comment" required></textarea>
+                    <textarea class="form-control" name="rating[comment]" id="comment"></textarea>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="quality">Quality Rating</label>
                     <input class="form-control" type="text" name="rating[quality]" id="quality" required/>
+                    <div class="invalid-feedback">Rating must be selected</div>
+                    <div class="valid-feedback">Looks good!</div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="difficulty">Difficulty Rating</label>
                     <input class="form-control" type="text" name="rating[difficulty]" id="difficulty" required/>
+                    <div class="invalid-feedback">Rating must be selected</div>
+                    <div class="valid-feedback">Looks good!</div>
                 </div class="mb-3 ">
                 <button type="submit" class="btn btn-primary" >Add Rating</button>
             </form>
         </div>
     </div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (() => {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    const forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.from(forms).forEach(form => {
+        form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+        }
+
+        form.classList.add('was-validated')
+        }, false)
+    })
+    })()
+</script>
