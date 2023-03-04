@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
+const Joi = require('joi')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
@@ -46,7 +47,23 @@ app.get('/ratings/new', (req, res) => {
 })
 
 app.post('/ratings', catchAsync(async (req, res) => {
-    if (!req.body.rating) throw new ExpressError('Invalid Campground Data', 400)
+    // if (!req.body.rating) throw new ExpressError('Invalid Campground Data', 400)
+    const ratingSchema = Joi.object({
+        rating: Joi.object({
+            teacher: Joi.string().required(),
+            school: Joi.string().required(),
+            department: Joi.string().required(),
+            comment: Joi.string(),
+            quality: Joi.number().integer().required().min(1).max(5),
+            difficulty: Joi.number().integer().required().min(1).max(5)
+        }).required()
+    })
+    const {error} = ratingSchema.validate(req.body)
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    }
+    console.log(result)
     const rating = new Rating(req.body.rating)
     await rating.save()
     res.redirect(`/ratings/${rating._id}`)
