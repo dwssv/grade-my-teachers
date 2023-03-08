@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
-const Joi = require('joi')
+const { ratingSchema } = require('./schemas')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
@@ -31,6 +31,16 @@ app.set('views', path.join(__dirname, '/views'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
+const validateRating = (req, res, next) => {
+    const { error } = ratingSchema.validate(req.body)
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next()
+    }
+}
+
 app.get('/', (req, res) => {
     res.render('home')
 })
@@ -43,27 +53,11 @@ app.get('/ratings', catchAsync(async (req, res) => {
 
 // page to add new rating
 app.get('/ratings/new', (req, res) => {
-    res.render('ratings/new', {departments})
+    res.render('ratings/new', { departments })
 })
 
-app.post('/ratings', catchAsync(async (req, res) => {
+app.post('/ratings', validateRating, catchAsync(async (req, res) => {
     // if (!req.body.rating) throw new ExpressError('Invalid Campground Data', 400)
-    const ratingSchema = Joi.object({
-        rating: Joi.object({
-            teacher: Joi.string().required(),
-            school: Joi.string().required(),
-            department: Joi.string().required(),
-            comment: Joi.string(),
-            quality: Joi.number().integer().required().min(1).max(5),
-            difficulty: Joi.number().integer().required().min(1).max(5)
-        }).required()
-    })
-    const {error} = ratingSchema.validate(req.body)
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    }
-    console.log(result)
     const rating = new Rating(req.body.rating)
     await rating.save()
     res.redirect(`/ratings/${rating._id}`)
@@ -75,7 +69,7 @@ app.get('/ratings/:id/edit', catchAsync(async (req, res) => {
     res.render('ratings/edit', { rating, departments })
 }))
 
-app.put('/ratings/:id', catchAsync(async (req, res) => {
+app.put('/ratings/:id', validateRating, catchAsync(async (req, res) => {
     const { id } = req.params
     const rating = await Rating.findByIdAndUpdate(id, req.body.rating)
     res.redirect(`/ratings/${rating._id}`)
@@ -99,7 +93,7 @@ app.all('*', (req, res, next) => {
 })
 
 app.use((err, req, res, next) => {
-    const {statusCode = 500} = err
+    const { statusCode = 500 } = err
     if (!err.message) {
         err.message = 'Something went wrong'
     }
