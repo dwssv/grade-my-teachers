@@ -1,19 +1,18 @@
 <% layout('layouts/boilerplate') %>
     <div class="d-flex align-self-start">
-        <h1 class="fw-bolder me-2"><%= rating.quality %></h1>
+        <h1 class="fw-bolder me-2">4</h1>
         <div class="text-muted fw-bold">/ 5</div>
     </div>
     <div class="fw-semibold mb-3">Overall Quality Based <a href="#" class="text-black">XX ratings</a></div>
-    <h1 class="fw-bolder"><%= rating.teacher %></h1>
-    <p>Teacher in the <a href="#" class="text-black fw-semibold"><%= rating.department %></a> department at <a href="#" class="text-black fw-semibold"><%= rating.school %></a></p>
-    <p>Comment: <%= rating.comment %></p>
+    <h1 class="fw-bolder"><%= professor.teacher %></h1>
+    <p>Professor in the <a href="#" class="text-black fw-semibold"><%= professor.department %></a> department</p>
     <div class="row">
         <div class="col-2">
             <h2 class="fw-bold">N/A</h2>
             <p>Would take again</p>
         </div>
         <div class="col-2">
-            <h2 class="fw-bold"><%= rating.difficulty %></h2>
+            <h2 class="fw-bold">3.0</h2>
             <p>Level of difficulty</p>
         </div>
         <div class="col-8"></div>
@@ -23,10 +22,10 @@
         <button class="btn btn-primary btn-sm">Back</button>
     </form>
 
-    <form class="d-inline" action="/ratings/<%= rating._id %>/edit">
+    <form class="d-inline" action="/ratings/<%= professor._id %>/edit">
         <button class="btn btn-success btn-sm">Edit</button>
     </form>
 
-    <form class="d-inline" action="/ratings/<%= rating._id %>?_method=DELETE" method="POST">
+    <form class="d-inline" action="/ratings/<%= professor._id %>?_method=DELETE" method="POST">
         <button class="btn btn-danger btn-sm">Delete</button>
     </form>

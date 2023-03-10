@@ -1,23 +1,22 @@
 <% layout('layouts/boilerplate') %>
     <h1>All Ratings</h1>
     <div class="mt-4">
-    <% for (let rating of ratings) { %>
+    <% for (let p of professor) { %>
           <div class="card mb-3" style="max-width: 750px;">
             <div class="row g-0">
               <div class="col-2">
                 <div class="card-body">
                     <div class="text-center">
                         <div>Quality</div>
-                        <h2><%= rating.quality %>.0</h2>
+                        <h2>4.0</h2>
                     </div>
                 </div>
               </div>
               <div class="col-10">
                 <div class="card-body">
-                    <h4><a href="/ratings/<%= rating._id %>" class="text-black"><%= rating.teacher %></a></h4>
-                    <p class="card-text text-muted"><%= rating.department %></p>
-                    <p class="card-text"><%= rating.school %></p>
-                    <p class="card-text"><b><%= rating.difficulty %></b> level of difficulty</p>
+                    <h4><a href="/ratings/<%= p._id %>" class="text-black"><%= p.first %> <%= p.last %></a></h4>
+                    <p class="card-text text-muted"><%= p.department %></p>
+                    <p class="card-text"><b>3.0</b> level of difficulty</p>
                 </div>
               </div>
             </div>

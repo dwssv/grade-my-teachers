@@ -6,7 +6,7 @@ const { ratingSchema } = require('./schemas')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
-const Rating = require('./models/rating')
+const Professor = require('./models/professor')
 const departments = require('./seeds/departments')
 
 // handle initial connection error
@@ -47,44 +47,45 @@ app.get('/', (req, res) => {
 
 // show all ratings
 app.get('/ratings', catchAsync(async (req, res) => {
-    const ratings = await Rating.find({})
-    res.render('ratings/index', { ratings })
+    const professor = await Professor.find({})
+    // res.send(professor)
+    res.render('ratings/index', { professor })
 }))
 
-// page to add new rating
+// page to add new professor
 app.get('/ratings/new', (req, res) => {
     res.render('ratings/new', { departments })
 })
 
 app.post('/ratings', validateRating, catchAsync(async (req, res) => {
-    // if (!req.body.rating) throw new ExpressError('Invalid Campground Data', 400)
-    const rating = new Rating(req.body.rating)
-    await rating.save()
-    res.redirect(`/ratings/${rating._id}`)
+    // if (!req.body.professor) throw new ExpressError('Invalid Campground Data', 400)
+    const professor = new Professor(req.body.professor)
+    await professor.save()
+    res.redirect(`/ratings/${professor._id}`)
 }))
 
 app.get('/ratings/:id/edit', catchAsync(async (req, res) => {
     const { id } = req.params
-    const rating = await Rating.findById(id)
-    res.render('ratings/edit', { rating, departments })
+    const professor = await Professor.findById(id)
+    res.render('ratings/edit', { professor, departments })
 }))
 
 app.put('/ratings/:id', validateRating, catchAsync(async (req, res) => {
     const { id } = req.params
-    const rating = await Rating.findByIdAndUpdate(id, req.body.rating)
-    res.redirect(`/ratings/${rating._id}`)
+    const professor = await Professor.findByIdAndUpdate(id, req.body.professor)
+    res.redirect(`/ratings/${professor._id}`)
 }))
 
 // show individual ratings
 app.get('/ratings/:id', catchAsync(async (req, res) => {
     const { id } = req.params
-    const rating = await Rating.findById(id)
-    res.render('ratings/show', { rating })
+    const professor = await Professor.findById(id)
+    res.render('ratings/show', { professor })
 }))
 
 app.delete('/ratings/:id', catchAsync(async (req, res) => {
     const { id } = req.params
-    await Rating.findByIdAndDelete(id)
+    await Professor.findByIdAndDelete(id)
     res.redirect('/ratings')
 }))
 

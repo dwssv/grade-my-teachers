@@ -1,48 +1,32 @@
 <% layout('layouts/boilerplate') %>
 <div class="row mb-5">
-    <h1 class="text-center">Edit Rating</h1>
+    <h1 class="text-center">Edit Professor</h1>
     <div class="col-6 offset-3">
-        <form action="/ratings/<%= rating._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
+        <form action="/ratings/<%= professor._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
             <div class="mb-3">
-                <label class="form-label" for="school">Name of School</label>
-                <input class="form-control" type="text" name="rating[school]" id="school" value="<%= rating.school %>" required/>
-                <div class="invalid-feedback">School's name must be at least two letters long</div>
+                <label class="form-label" for="first">First Name</label>
+                <input class="form-control" type="text" name="professor[first]" id="first" value="<%= professor.first %>" required/>
+                <div class="invalid-feedback">First name must be at least two letters long</div>
                 <div class="valid-feedback">Looks good!</div>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="teacher">Teacher's Name</label>
-                <input class="form-control" type="text" name="rating[teacher]" id="teacher" value="<%= rating.teacher %>" required/>
-                <div class="invalid-feedback">Teacher's name must be at least two letters long</div>
+                <label class="form-label" for="last">Last Name</label>
+                <input class="form-control" type="text" name="professor[last]" id="last" value="<%= professor.last %>" required/>
+                <div class="invalid-feedback">Last name must be at least two letters long</div>
                 <div class="valid-feedback">Looks good!</div>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="course">Department</label>
-                <select class="form-select" type="text" name="rating[department]" id="department" required>
+                <select class="form-select" type="text" name="professor[department]" id="department" required>
                     <% for (let d of departments) { %>
-                        <option <%= d == rating.department ? "selected" : "" %> value="<%= d %>"><%= d %></option>
+                        <option <%= d == professor.department ? "selected" : "" %> value="<%= d %>"><%= d %></option>
                     <% } %>
                 </select>
                 <div class="invalid-feedback">Department must be selected</div>
                 <div class="valid-feedback">Looks good!</div>
             </div>
-            <div class="mb-3">
-                <label class="form-label" for="comment">Comment</label>
-                <textarea class="form-control" name="rating[comment]" id="comment"><%= rating.comment %></textarea>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="quality">Quality Rating</label>
-                <input class="form-range" type="range" min="1" max="5" step="1" name="rating[quality]" id="quality" value="<%= rating.quality %>" required/>
-                <div class="invalid-feedback">Rating must be selected</div>
-                <div class="valid-feedback">Looks good!</div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="difficulty">Difficulty Rating</label>
-                <input class="form-range" type="range" min="1" max="5" step="1" name="rating[difficulty]" id="difficulty" value="<%= rating.difficulty %>" required/>
-                <div class="invalid-feedback">Rating must be selected</div>
-                <div class="valid-feedback">Looks good!</div>
-            </div class="mb-3 ">
             <button type="submit" class="d-inline btn btn-primary">Edit Rating</button>
-            <form class="d-inline" action="/ratings/<%= rating._id %>">
+            <form class="d-inline" action="/ratings/<%= professor._id %>">
                 <button class="btn btn-success">Back</button>
             </form>
         </form>
