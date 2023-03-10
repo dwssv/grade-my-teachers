@@ -1,16 +1,12 @@
 module.exports = [
-    'Foreign Language',
-    'Health',
-    'Mathematics',
-    'Physics',
-    'Chemistry',
-    'Biology',
-    'Music',
-    'Fine Arts',
-    'English',
-    'Humanities',
+    'Architecture',
     'Science',
+    'Fine Arts',
+    'Liberal Arts',
+    'English',
+    'Social Science and Humanities',
+    'Political Science',
     'History',
-    'Physical Education',
-    'STEM'
+    'Management',
+    'Engineering'
 ]
