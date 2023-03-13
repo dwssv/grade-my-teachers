@@ -8,3 +8,12 @@ module.exports.professorSchema = Joi.object({
     }).required()
 })
 
+module.exports.commentSchema = Joi.object({
+    comment: Joi.object({
+        quality: Joi.number().integer().min(1).max(5).required(),
+        difficulty: Joi.number().integer().min(1).max(5).required(),
+        wouldTakeAgain: Joi.boolean().required(),
+        body: Joi.string().required(),
+        course: Joi.string().required()
+    }).required()
+})

@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
-const { professorSchema } = require('./schemas')
+const { professorSchema, commentSchema } = require('./schemas')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
@@ -34,6 +34,16 @@ app.use(methodOverride('_method'))
 
 const validateRating = (req, res, next) => {
     const { error } = professorSchema.validate(req.body)
+    if (error) {
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next()
+    }
+}
+
+const validateComment = (req, res, next) => {
+    const { error } = commentSchema.validate(req.body)
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
@@ -90,7 +100,7 @@ app.delete('/ratings/:id', catchAsync(async (req, res) => {
     res.redirect('/ratings')
 }))
 
-app.post('/ratings/:id/comments', catchAsync(async (req, res) => {
+app.post('/ratings/:id/comments', validateComment, catchAsync(async (req, res) => {
     const professor = await Professor.findById(req.params.id)
     const comment = new Comment(req.body.comment)
     professor.comments.push(comment)
