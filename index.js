@@ -2,11 +2,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
-const { ratingSchema } = require('./schemas')
+const { professorSchema } = require('./schemas')
 const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 const Professor = require('./models/professor')
+const Comment = require('./models/comment')
 const departments = require('./seeds/departments')
 
 // handle initial connection error
@@ -32,7 +33,7 @@ app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
 const validateRating = (req, res, next) => {
-    const { error } = ratingSchema.validate(req.body)
+    const { error } = professorSchema.validate(req.body)
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
@@ -87,6 +88,15 @@ app.delete('/ratings/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     await Professor.findByIdAndDelete(id)
     res.redirect('/ratings')
+}))
+
+app.post('/ratings/:id/comments', catchAsync(async (req, res) => {
+    const professor = await Professor.findById(req.params.id)
+    const comment = new Comment(req.body.comment)
+    professor.comments.push(comment)
+    await comment.save()
+    await professor.save()
+    res.redirect(`/ratings/${professor._id}`)
 }))
 
 app.all('*', (req, res, next) => {

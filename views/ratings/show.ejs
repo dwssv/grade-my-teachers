@@ -1,31 +1,72 @@
 <% layout('layouts/boilerplate') %>
-    <div class="d-flex align-self-start">
-        <h1 class="fw-bolder me-2">4</h1>
-        <div class="text-muted fw-bold">/ 5</div>
-    </div>
-    <div class="fw-semibold mb-3">Overall Quality Based <a href="#" class="text-black">XX ratings</a></div>
-    <h1 class="fw-bolder"><%= professor.first %> <%= professor.last %></h1>
-    <p>Professor in the <a href="#" class="text-black fw-semibold"><%= professor.department %></a> department</p>
     <div class="row">
-        <div class="col-2">
-            <h2 class="fw-bold">N/A</h2>
-            <p>Would take again</p>
+        <div class="col-md-8">
+            <div class="d-flex align-self-start">
+                <h1 class="fw-bolder me-2">4</h1>
+                <div class="text-muted fw-bold">/ 5</div>
+            </div>
+            <div class="fw-semibold mb-3">Overall Quality Based <a href="#" class="text-black">XX ratings</a></div>
+            <h1 class="fw-bolder">
+                <%= professor.first %>
+                    <%= professor.last %>
+            </h1>
+            <p>Professor in the <a href="#" class="text-black fw-semibold">
+                    <%= professor.department %>
+                </a> department</p>
+            <div class="row">
+                <div class="col-4">
+                    <h2 class="fw-bold">N/A</h2>
+                    <p>Would take again</p>
+                </div>
+                <div class="col-4">
+                    <h2 class="fw-bold">3.0</h2>
+                    <p>Level of difficulty</p>
+                </div>
+                <div class="col-4"></div>
+            </div>
+
+            <form class="d-inline" action="/ratings">
+                <button class="btn btn-primary btn-sm">Back</button>
+            </form>
+
+            <form class="d-inline" action="/ratings/<%= professor._id %>/edit">
+                <button class="btn btn-success btn-sm">Edit</button>
+            </form>
+
+            <form class="d-inline" action="/ratings/<%= professor._id %>?_method=DELETE" method="POST">
+                <button class="btn btn-danger btn-sm">Delete</button>
+            </form>
+
+            <h5 class="mt-5 mb-3">Student Comments</h5>
+            <form action="/ratings/<%=professor._id%>/comments" method="POST" class="mb-3 needs-validation" novalidate>
+                <div class="mb-3">
+                    <label class="form-lable" for="course">Enter Course Code</label>
+                    <input class="form-control" name="comment[course]" id="course" type="text" required>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-lable" for="quality">Rate your professor</label>
+                    <input class="form-range" name="comment[quality]" id="quality" type="range" min="1" max="5">
+                </div>
+                <div class="mb-3">
+                    <label class="form-lable" for="difficulty">How difficult was this professor?</label>
+                    <input class="form-range" name="comment[difficulty]" id="difficulty" type="range" min="1" max="5">
+                </div>
+                <div class="mb-3">
+                    <label class="form-lable" for="wouldTakeAgain">Would you take this professor again?</label>
+                    <select class="form-select" name="comment[wouldTakeAgain]" id="wouldTakeAgain" required>
+                        <option disabled selected value>-- Open this select menu --</option>
+                        <option value="yes">Yes</option>
+                        <option value="no">No</option>
+                    </select>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-lable" for="body">Write a Review</label>
+                    <textarea class="form-control" name="comment[body]" id="body" cols="30" rows="3" required></textarea>
+                    <div class="valid-feedback">Looks good!</div>
+                </div>
+                <button class="btn btn-success">Submit</button>
+            </form>
         </div>
-        <div class="col-2">
-            <h2 class="fw-bold">3.0</h2>
-            <p>Level of difficulty</p>
-        </div>
-        <div class="col-8"></div>
     </div>
-
-    <form class="d-inline" action="/ratings">
-        <button class="btn btn-primary btn-sm">Back</button>
-    </form>
-
-    <form class="d-inline" action="/ratings/<%= professor._id %>/edit">
-        <button class="btn btn-success btn-sm">Edit</button>
-    </form>
-
-    <form class="d-inline" action="/ratings/<%= professor._id %>?_method=DELETE" method="POST">
-        <button class="btn btn-danger btn-sm">Delete</button>
-    </form>

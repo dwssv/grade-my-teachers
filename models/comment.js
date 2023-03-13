@@ -5,12 +5,8 @@ const CommentSchema = new Schema({
     quality: Number,
     difficulty: Number,
     wouldTakeAgain: Boolean,
-    contentText: String,
-    courseCode: String,
-    professor: {
-        type: Schema.Types.ObjectId,
-        ref: 'Professor'
-    } 
+    body: String,
+    course: String
 })
 
 module.exports = mongoose.model('Comment', CommentSchema)
