@@ -89,8 +89,7 @@ app.put('/ratings/:id', validateRating, catchAsync(async (req, res) => {
 
 // show individual ratings
 app.get('/ratings/:id', catchAsync(async (req, res) => {
-    const { id } = req.params
-    const professor = await Professor.findById(id)
+    const professor = await Professor.findById(req.params.id).populate('comments')
     res.render('ratings/show', { professor })
 }))
 
