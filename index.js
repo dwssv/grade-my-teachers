@@ -30,6 +30,9 @@ app.set('views', path.join(__dirname, '/views'))
 // middleware to parse incomming (POST, PUT) request 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
+// public directories hold static files such as javascript, css, and images
+// the browser can access these files hence the name "public "
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.use('/professors', professors)
 app.use('/professors/:id/comments', comments)
