@@ -1,9 +1,12 @@
 const express = require('express')
-const departments = require('../seeds/departments')
+const router = express.Router()
+
 const catchAsync = require('../utils/catchAsync')
+const ExpressError = require('../utils/ExpressError')
+
 const Professor = require('../models/professor')
 const { professorSchema } = require('../schemas')
-const router = express.Router()
+const departments = require('../seeds/departments')
 
 // professor validation middleware
 const validateProfessor = (req, res, next) => {
