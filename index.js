@@ -2,15 +2,12 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
-const { professorSchema, commentSchema } = require('./schemas')
-const catchAsync = require('./utils/catchAsync')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
-const Professor = require('./models/professor')
-const Comment = require('./models/comment')
 
 // require routes
 const professors = require('./routes/professors')
+const comments = require('./routes/comments')
 
 // handle initial connection error
 mongoose.connect('mongodb://127.0.0.1:27017/rate-my-teachers')
@@ -34,39 +31,12 @@ app.set('views', path.join(__dirname, '/views'))
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 
-const validateComment = (req, res, next) => {
-    const { error } = commentSchema.validate(req.body)
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next()
-    }
-}
-
 app.use('/professors', professors)
+app.use('/professors/:id/comments', comments)
 
 app.get('/', (req, res) => {
     res.render('home')
 })
-
-// create comment
-app.post('/professors/:id/comments', validateComment, catchAsync(async (req, res) => {
-    const professor = await Professor.findById(req.params.id)
-    const comment = new Comment(req.body.comment)
-    professor.comments.push(comment)
-    await comment.save()
-    await professor.save()
-    res.redirect(`/professors/${professor._id}`)
-}))
-
-// Delete comment
-app.delete('/professors/:id/comments/:commentId', catchAsync(async (req, res) => {
-    const {id, commentId} = req.params
-    Professor.findByIdAndUpdate(id, {$pull: {comments: commentId}})
-    await Comment.findByIdAndDelete(commentId)
-    res.redirect(`/professors/${id}`)
-}))
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))
