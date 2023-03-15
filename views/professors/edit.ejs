@@ -2,7 +2,7 @@
 <div class="row mb-5">
     <h1 class="text-center">Edit Professor</h1>
     <div class="col-6 offset-3">
-        <form action="/ratings/<%= professor._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
+        <form action="/professors/<%= professor._id %>?_method=PUT" method="POST" novalidate class="needs-validation">
             <div class="mb-3">
                 <label class="form-label" for="first">First Name</label>
                 <input class="form-control" type="text" name="professor[first]" id="first" value="<%= professor.first %>" required/>
@@ -26,7 +26,7 @@
                 <div class="valid-feedback">Looks good!</div>
             </div>
             <button type="submit" class="d-inline btn btn-primary">Edit Rating</button>
-            <form class="d-inline" action="/ratings/<%= professor._id %>">
+            <form class="d-inline" action="/professors/<%= professor._id %>">
                 <button class="btn btn-success">Back</button>
             </form>
         </form>

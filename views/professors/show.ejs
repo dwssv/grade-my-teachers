@@ -23,20 +23,20 @@
                 <div class="col-2"></div>
             </div>
 
-            <form class="d-inline" action="/ratings">
+            <form class="d-inline" action="/professors">
                 <button class="btn btn-primary btn-sm">Back</button>
             </form>
 
-            <form class="d-inline" action="/ratings/<%= professor._id %>/edit">
+            <form class="d-inline" action="/professors/<%= professor._id %>/edit">
                 <button class="btn btn-success btn-sm">Edit</button>
             </form>
 
-            <form class="d-inline" action="/ratings/<%= professor._id %>?_method=DELETE" method="POST">
+            <form class="d-inline" action="/professors/<%= professor._id %>?_method=DELETE" method="POST">
                 <button class="btn btn-danger btn-sm">Delete</button>
             </form>
 
             <h5 class="mt-5 mb-3">Add a Comments</h5>
-            <form action="/ratings/<%=professor._id%>/comments" method="POST" class="mb-3 needs-validation" novalidate>
+            <form action="/professors/<%=professor._id%>/comments" method="POST" class="mb-3 needs-validation" novalidate>
                 <div class="mb-3">
                     <label class="form-lable" for="course">Enter Course Code</label>
                     <input class="form-control" name="comment[course]" id="course" type="text" required>
@@ -79,7 +79,7 @@
                             <span>Quality: <%= comment.quality %></span>
                             <span>Difficulty: <%= comment.difficulty %></span>
                         </div>
-                        <form action="/ratings/<%=professor._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                        <form action="/professors/<%=professor._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
                             <button class="btn btn-danger btn-sm mt-3">Delete</button>
                         </form>
                     </div>
