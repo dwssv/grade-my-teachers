@@ -40,8 +40,11 @@ router.post('/', validateProfessor, catchAsync(async (req, res) => {
 
 // render edit page to edit a professor
 router.get('/:id/edit', catchAsync(async (req, res) => {
-    const { id } = req.params
-    const professor = await Professor.findById(id)
+    const professor = await Professor.findById(req.params.id)
+    if (!professor) {
+        req.flash('error', 'Cannot find that professor')
+        return res.redirect('/professors')
+    } 
     res.render('professors/edit', { professor, departments })
 }))
 
@@ -56,6 +59,10 @@ router.put('/:id', validateProfessor, catchAsync(async (req, res) => {
 // show individual professors
 router.get('/:id', catchAsync(async (req, res) => {
     const professor = await Professor.findById(req.params.id).populate('comments')
+    if (!professor) {
+        req.flash('error', 'Cannot find that professor')
+        return res.redirect('/professors')
+    } 
     res.render('professors/show', { professor })
 }))
 
