@@ -3,6 +3,7 @@ const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
 const session = require('express-session')
+const flash = require('connect-flash')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 
@@ -47,6 +48,14 @@ const sessionConfig = {
     }
 }
 app.use(session(sessionConfig))
+app.use(flash())
+
+// flash middleware so that we will have access to flash message
+app.use((req, res, next) => {
+    res.locals.success = req.flash('success')
+    res.locals.error = req.flash('error')
+    next()
+})
 
 app.use('/professors', professors)
 app.use('/professors/:id/comments', comments)
