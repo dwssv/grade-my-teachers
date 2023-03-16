@@ -49,6 +49,7 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 router.put('/:id', validateProfessor, catchAsync(async (req, res) => {
     const { id } = req.params
     const professor = await Professor.findByIdAndUpdate(id, req.body.professor)
+    req.flash('success', 'Sucessfully edited a professor!')
     res.redirect(`/professors/${professor._id}`)
 }))
 
@@ -61,6 +62,7 @@ router.get('/:id', catchAsync(async (req, res) => {
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params
     await Professor.findByIdAndDelete(id)
+    req.flash('success', 'Sucessfully deleted a professor!')
     res.redirect('/professors')
 }))
 

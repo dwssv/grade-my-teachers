@@ -28,6 +28,7 @@ router.post('/', validateComment, catchAsync(async (req, res) => {
     professor.comments.push(comment)
     await comment.save()
     await professor.save()
+    req.flash('success', 'Sucessfully added a comment!')
     res.redirect(`/professors/${professor._id}`)
 }))
 
@@ -36,6 +37,7 @@ router.delete('/:commentId', catchAsync(async (req, res) => {
     const {id, commentId} = req.params
     Professor.findByIdAndUpdate(id, {$pull: {comments: commentId}})
     await Comment.findByIdAndDelete(commentId)
+    req.flash('success', 'Sucessfully deleted a comment!')
     res.redirect(`/professors/${id}`)
 }))
 
