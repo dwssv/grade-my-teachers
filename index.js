@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
 const ejsMate = require('ejs-mate')
+const session = require('express-session')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
 
@@ -33,6 +34,19 @@ app.use(methodOverride('_method'))
 // public directories hold static files such as javascript, css, and images
 // the browser can access these files hence the name "public "
 app.use(express.static(path.join(__dirname, 'public')))
+
+// session configuration objects
+const sessionConfig = {
+    secret: 'thisshouldbeabettersecret',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        httpOnly: true,
+        exprires: Date.now() + 1000 * 60 * 60  * 24 * 7,
+        maxAge: 1000 * 60 * 60  * 24 * 7
+    }
+}
+app.use(session(sessionConfig))
 
 app.use('/professors', professors)
 app.use('/professors/:id/comments', comments)
