@@ -7,6 +7,7 @@ const ExpressError = require('../utils/ExpressError')
 const Professor = require('../models/professor')
 const { professorSchema } = require('../schemas')
 const departments = require('../seeds/departments')
+const { isLoggedIn } = require('../middleware')
 
 // professor validation middleware
 const validateProfessor = (req, res, next) => {
@@ -26,12 +27,12 @@ router.get('/', catchAsync(async (req, res) => {
 }))
 
 // page to add new professor
-router.get('/new', (req, res) => {
+router.get('/new', isLoggedIn, (req, res) => {
     res.render('professors/new', { departments })
 })
 
 // request to create new professor
-router.post('/', validateProfessor, catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, validateProfessor, catchAsync(async (req, res) => {
     const professor = new Professor(req.body.professor)
     await professor.save()
     req.flash('success', 'Sucessfully added a new professor!')
@@ -39,7 +40,7 @@ router.post('/', validateProfessor, catchAsync(async (req, res) => {
 }))
 
 // render edit page to edit a professor
-router.get('/:id/edit', catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
     const professor = await Professor.findById(req.params.id)
     if (!professor) {
         req.flash('error', 'Cannot find that professor')
@@ -49,7 +50,7 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 }))
 
 // edit a professor
-router.put('/:id', validateProfessor, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, validateProfessor, catchAsync(async (req, res) => {
     const { id } = req.params
     const professor = await Professor.findByIdAndUpdate(id, req.body.professor)
     req.flash('success', 'Sucessfully edited a professor!')
@@ -66,7 +67,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('professors/show', { professor })
 }))
 
-router.delete('/:id', catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params
     await Professor.findByIdAndDelete(id)
     req.flash('success', 'Sucessfully deleted a professor!')
