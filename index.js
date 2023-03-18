@@ -69,6 +69,7 @@ passport.serializeUser(User.serializeUser())
 
 // flash middleware so that we will have access to flash message
 app.use((req, res, next) => {
+    res.locals.currentUser = req.user
     res.locals.success = req.flash('success')
     res.locals.error = req.flash('error')
     next()
