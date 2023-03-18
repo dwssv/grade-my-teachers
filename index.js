@@ -6,10 +6,14 @@ const session = require('express-session')
 const flash = require('connect-flash')
 const ExpressError = require('./utils/ExpressError')
 const methodOverride = require('method-override')
+const passport = require('passport')
+const LocalStrategy = require('passport-local')
+const User = require('./models/user')
 
 // require routes
-const professors = require('./routes/professors')
-const comments = require('./routes/comments')
+const userRoutes = require('./routes/users')
+const professorsRoutes = require('./routes/professors')
+const commentsRoutes = require('./routes/comments')
 
 // handle initial connection error
 mongoose.connect('mongodb://127.0.0.1:27017/rate-my-teachers')
@@ -50,6 +54,19 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash())
 
+app.use(passport.initialize())
+app.use(passport.session())
+
+// see static methods https://www.npmjs.com/package/passport-local-mongoose
+// use LocalStrategy to authenticate user
+passport.use(new LocalStrategy(User.authenticate()))
+// how to store user in session
+passport.serializeUser(User.serializeUser())
+// how to get user out of session
+passport.deserializeUser(User.deserializeUser())
+
+passport.serializeUser(User.serializeUser())
+
 // flash middleware so that we will have access to flash message
 app.use((req, res, next) => {
     res.locals.success = req.flash('success')
@@ -57,8 +74,9 @@ app.use((req, res, next) => {
     next()
 })
 
-app.use('/professors', professors)
-app.use('/professors/:id/comments', comments)
+app.use('/', userRoutes)
+app.use('/professors', professorsRoutes)
+app.use('/professors/:id/comments', commentsRoutes)
 
 app.get('/', (req, res) => {
     res.render('home')
