@@ -34,6 +34,7 @@ router.get('/new', isLoggedIn, (req, res) => {
 // request to create new professor
 router.post('/', isLoggedIn, validateProfessor, catchAsync(async (req, res) => {
     const professor = new Professor(req.body.professor)
+    professor.author = req.user._id
     await professor.save()
     req.flash('success', 'Sucessfully added a new professor!')
     res.redirect(`/professors/${professor._id}`)

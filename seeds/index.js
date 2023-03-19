@@ -34,27 +34,11 @@ const seedProfessor = async () => {
             first: sample(firstnames),
             last:  sample(surnames),
             department: sample(departments),
+            author: '64157d00094fc381531705b4'
         })
         await professor.save()
     }
 }
 
-// const seedComment = async () => {
-//     await Comment.deleteMany({})
-//     for (let i = 0; i < 100; i++) {
-//         const comment = new Comment({
-//             quality: Math.floor(Math.random() * 5) + 1,
-//             difficulty: Math.floor(Math.random() * 5) + 1,
-//             wouldTakeAgain: Math.floor(Math.random() * 2),
-//             contentText: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate ipsum est ipsa molestiae illo quod, iure non labore, earum quia excepturi, consectetur cumque necessitatibus quos atque consequatur incidunt totam nihil!',
-//             courseCode: courseCode(),
-//             // professor: 'Professor X'
-//         })
-//         await comment.save()
-//     }
-// }
-
-
-
 seedProfessor().then(() => mongoose.connection.close())
-// seedComment()
+
