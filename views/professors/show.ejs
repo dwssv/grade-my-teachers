@@ -26,14 +26,17 @@
             <form class="d-inline" action="/professors">
                 <button class="btn btn-primary btn-sm">Back</button>
             </form>
-
-            <form class="d-inline" action="/professors/<%= professor._id %>/edit">
-                <button class="btn btn-success btn-sm">Edit</button>
-            </form>
-
-            <form class="d-inline" action="/professors/<%= professor._id %>?_method=DELETE" method="POST">
-                <button class="btn btn-danger btn-sm">Delete</button>
-            </form>
+            
+            <!-- the ObjectId type is a custom type created by mongoDB 
+                the .equals() method is used instead of '==' because using the equality sign compares their references -->
+            <% if (currentUser && professor.author.equals(currentUser._id)) { %>
+                <form class="d-inline" action="/professors/<%= professor._id %>/edit">
+                    <button class="btn btn-success btn-sm">Edit</button>
+                </form>
+                <form class="d-inline" action="/professors/<%= professor._id %>?_method=DELETE" method="POST">
+                    <button class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            <% } %>
 
             <h5 class="mt-5 mb-3">Add a Comments</h5>
             <form action="/professors/<%=professor._id%>/comments" method="POST" class="mb-3 needs-validation" novalidate>
