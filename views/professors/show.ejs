@@ -42,13 +42,20 @@
                     <input class="form-control" name="comment[course]" id="course" type="text" required>
                     <div class="valid-feedback">Looks good!</div>
                 </div>
-                <div class="mb-3">
-                    <label class="form-lable" for="quality">Rate your professor</label>
-                    <input class="form-range" name="comment[quality]" id="quality" type="range" min="1" max="5">
-                </div>
-                <div class="mb-3">
-                    <label class="form-lable" for="difficulty">How difficult was this professor?</label>
-                    <input class="form-range" name="comment[difficulty]" id="difficulty" type="range" min="1" max="5">
+
+                <div class="row">
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-lable" for="quality">Rate your professor</label>
+                            <input class="form-range" name="comment[quality]" id="quality" type="range" min="1" max="5">
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                            <label class="form-lable" for="difficulty">Rate the difficulty</label>
+                            <input class="form-range" name="comment[difficulty]" id="difficulty" type="range" min="1" max="5">
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-lable" for="wouldTakeAgain">Would you take this professor again?</label>
@@ -65,7 +72,7 @@
                         required></textarea>
                     <div class="valid-feedback">Looks good!</div>
                 </div>
-                <button class="btn btn-success">Submit</button>
+                <button class="btn btn-primary">Submit</button>
             </form>
         </div>
         <div class="col-md-6 mt-5">
