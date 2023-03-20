@@ -1,4 +1,4 @@
-const { professorSchema } = require('./schemas')
+const { professorSchema, commentSchema } = require('./schemas')
 const { ExpressError } = require('./utils/ExpressError')
 const Professor = require('./models/professor')
 
@@ -31,4 +31,15 @@ module.exports.isAuthor = async (req, res, next) => {
         return res.redirect(`/professors/${id}`)
     }
     next()
+}
+
+// comment validation middleware
+module.exports.validateComment = (req, res, next) => {
+    const { error } = commentSchema.validate(req.body)
+    if (error) { 
+        const msg = error.details.map(el => el.message).join(',')
+        throw new ExpressError(msg, 400)
+    } else {
+        next()
+    }
 }
