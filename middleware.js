@@ -1,6 +1,7 @@
 const { professorSchema, commentSchema } = require('./schemas')
 const { ExpressError } = require('./utils/ExpressError')
 const Professor = require('./models/professor')
+const Comment = require('./models/comment')
 
  module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
@@ -22,7 +23,7 @@ module.exports.validateProfessor = (req, res, next) => {
     }
 }
 
-// check if user owns the rating/comment
+// check if user owns the professor rating
 module.exports.isAuthor = async (req, res, next) => {
     const { id } = req.params
     const professor = await Professor.findById(id)
@@ -42,4 +43,15 @@ module.exports.validateComment = (req, res, next) => {
     } else {
         next()
     }
+}
+
+// check if user owns the comment
+module.exports.isCommentAuthor = async (req, res, next) => {
+    const { id, commentId } = req.params
+    const comment = await Comment.findById(commentId)
+    if (!comment.author.equals(res.locals.currentUser._id)) {
+        req.flash('error', 'You do not have permission to do that')
+        return res.redirect(`/professors/${id}`)
+    }
+    next()
 }

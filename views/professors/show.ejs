@@ -38,6 +38,7 @@
                 </form>
             <% } %>
 
+            <% if (currentUser) { %>
             <h5 class="mt-5 mb-3">Add a Comments</h5>
             <form action="/professors/<%=professor._id%>/comments" method="POST" class="mb-3 needs-validation" novalidate>
                 <div class="mb-3">
@@ -77,23 +78,30 @@
                 </div>
                 <button class="btn btn-primary">Submit</button>
             </form>
+            <% } %>
         </div>
         <div class="col-md-6 mt-5">
             <h5 class="mb-3">Student Comments</h5>
-            <% for (let comment of professor.comments) { %>
-                <div class="card mb-3">
-                    <div class="card-body">
-                        <p><%= comment.course %></p>
-                        <p><%= comment.body %></p>
-                        <div>
-                            <span>Quality: <%= comment.quality %></span>
-                            <span>Difficulty: <%= comment.difficulty %></span>
+            <% if (professor.comments.length) { %>
+                <% for (let comment of professor.comments) { %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <p><%= comment.course %></p>
+                            <p><%= comment.body %></p>
+                            <div>
+                                <span>Quality: <%= comment.quality %></span>
+                                <span>Difficulty: <%= comment.difficulty %></span>
+                            </div>
+                            <% if (currentUser && comment.author.equals(currentUser._id)) { %>
+                                <form action="/professors/<%=professor._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
+                                    <button class="btn btn-danger btn-sm mt-3">Delete</button>
+                                </form>
+                            <% } %>
                         </div>
-                        <form action="/professors/<%=professor._id%>/comments/<%=comment._id%>?_method=DELETE" method="POST">
-                            <button class="btn btn-danger btn-sm mt-3">Delete</button>
-                        </form>
                     </div>
-                </div>
+                <% } %>
+            <% }  else  { %>
+                <p class="text-muted">Be the first to comment!</p>
             <% } %>
         </div>
     </div>

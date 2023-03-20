@@ -6,7 +6,11 @@ const CommentSchema = new Schema({
     difficulty: Number,
     wouldTakeAgain: Boolean,
     body: String,
-    course: String
+    course: String,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
+    },
 })
 
 module.exports = mongoose.model('Comment', CommentSchema)
