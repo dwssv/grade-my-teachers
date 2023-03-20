@@ -2,23 +2,10 @@ const express = require('express')
 const router = express.Router()
 
 const catchAsync = require('../utils/catchAsync')
-const ExpressError = require('../utils/ExpressError')
 
 const Professor = require('../models/professor')
-const { professorSchema } = require('../schemas')
 const departments = require('../seeds/departments')
-const { isLoggedIn } = require('../middleware')
-
-// professor validation middleware
-const validateProfessor = (req, res, next) => {
-    const { error } = professorSchema.validate(req.body)
-    if (error) {
-        const msg = error.details.map(el => el.message).join(',')
-        throw new ExpressError(msg, 400)
-    } else {
-        next()
-    }
-}
+const { isLoggedIn, validateProfessor, isAuthor } = require('../middleware')
 
 // show all professors
 router.get('/', catchAsync(async (req, res) => {
@@ -41,17 +28,18 @@ router.post('/', isLoggedIn, validateProfessor, catchAsync(async (req, res) => {
 }))
 
 // render edit page to edit a professor
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
-    const professor = await Professor.findById(req.params.id)
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+    const { id } = req.params
+    const professor = await Professor.findById(id)
     if (!professor) {
         req.flash('error', 'Cannot find that professor')
         return res.redirect('/professors')
-    } 
+    }
     res.render('professors/edit', { professor, departments })
 }))
 
 // edit a professor
-router.put('/:id', isLoggedIn, validateProfessor, catchAsync(async (req, res) => {
+router.put('/:id', isLoggedIn, isAuthor, validateProfessor, catchAsync(async (req, res) => {
     const { id } = req.params
     const professor = await Professor.findByIdAndUpdate(id, req.body.professor)
     req.flash('success', 'Sucessfully edited a professor!')
@@ -64,11 +52,11 @@ router.get('/:id', catchAsync(async (req, res) => {
     if (!professor) {
         req.flash('error', 'Cannot find that professor')
         return res.redirect('/professors')
-    } 
+    }
     res.render('professors/show', { professor })
 }))
 
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, isAuthor,  catchAsync(async (req, res) => {
     const { id } = req.params
     await Professor.findByIdAndDelete(id)
     req.flash('success', 'Sucessfully deleted a professor!')
