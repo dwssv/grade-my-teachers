@@ -1,17 +1,26 @@
 <% layout('layouts/boilerplate') %>
-    <div class="row mb-5">
-        <h1 class="text-center">Login</h1>
-        <div class="col-6 offset-3">
-            <form action="/login" method="POST" class="needs-validation" novalidate>
-                <div class="mb-3">
-                    <label for="username" class="form-label">Username</label>
-                    <input type="text" class="form-control" id="username" name="username" required>
+    <div class="row mt-3">
+        <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+            <h4 class="mb-3 text-center">Login</h4>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <form action="/login" method="POST" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="username" class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" name="username" required autofocus>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" name="password" required>
+                        </div>
+                        <button class="btn btn-primary btn-full-width">Submit</button>
+                    </form>
                 </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-text text-center">New here? <a href="/register" class="text-decoration-none">Create an account</a>.</p>
                 </div>
-                <button class="btn btn-primary">Submit</button>
-            </form>
+            </div>
         </div>
     </div>

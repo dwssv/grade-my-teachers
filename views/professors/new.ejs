@@ -1,32 +1,36 @@
 <% layout('layouts/boilerplate') %>
-    <div class="row mb-5">
-        <h1 class="text-center">Add a Professor</h1>
-        <div class="col-6 offset-3">
-            <form action="/professors" method="POST" novalidate class="needs-validation">
-                <div class="mb-3">
-                    <label class="form-label" for="first">First Name</label>
-                    <input class="form-control" type="text" name="professor[first]" id="first" required/>
-                    <div class="invalid-feedback">First name must be at least two letters long</div>
-                    <div class="valid-feedback">Looks good!</div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="last">Last Name</label>
-                    <input class="form-control" type="text" name="professor[last]" id="last" required/>
-                    <div class="invalid-feedback">Last name must be at least two letters long</div>
-                    <div class="valid-feedback">Looks good!</div>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="course">Department</label>
-                    <select class="form-select" type="text" name="professor[department]" id="department" required>
-                        <option disabled selected value>-- Open this select menu --</option>
-                        <% for (let d of departments) { %>
-                            <option value="<%= d %>"><%= d %></option>
-                        <% } %>
-                    </select>
-                    <div class="invalid-feedback">Department must be selected</div>
-                    <div class="valid-feedback">Looks good!</div>
-                </div>
-                <button type="submit" class="btn btn-primary" >Add Professor</button>
-            </form>
+<div class="row mt-3">
+    <div class="col-md-6 offset-md-3 col-xl-4 offset-xl-4">
+        <h4 class="mb-3 text-center">Add a Professor</h4>
+        <div class="card mb-3">
+            <div class="card-body">
+                <form action="/professors" method="POST" novalidate class="needs-validation">
+                    <div class="mb-3">
+                        <label class="form-label" for="first">First Name</label>
+                        <input class="form-control" type="text" name="professor[first]" id="first" required/>
+                        <div class="invalid-feedback">First name must be at least two letters long</div>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="last">Last Name</label>
+                        <input class="form-control" type="text" name="professor[last]" id="last" required/>
+                        <div class="invalid-feedback">Last name must be at least two letters long</div>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="course">Department</label>
+                        <select class="form-select" type="text" name="professor[department]" id="department" required>
+                            <option disabled selected value>-- Open this select menu --</option>
+                            <% for (let d of departments) { %>
+                                <option value="<%= d %>"><%= d %></option>
+                            <% } %>
+                        </select>
+                        <div class="invalid-feedback">Department must be selected</div>
+                        <div class="valid-feedback">Looks good!</div>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-full-width">Add Professor</button>
+                </form>
+            </div>
         </div>
     </div>
+</div>        
