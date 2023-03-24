@@ -1,4 +1,5 @@
 <% layout('layouts/boilerplate') %>
+<link rel="stylesheet" href="/stylesheets/stars.css">
     <div class="row">
         <div class="col-md-6">
             <div class="d-flex align-self-start">
@@ -51,13 +52,39 @@
                     <div class="col-6">
                         <div class="mb-3">
                             <label class="form-lable" for="quality">Rate your professor</label>
-                            <input class="form-range" name="comment[quality]" id="quality" type="range" min="1" max="5">
+                            <!-- <input class="form-range" name="comment[quality]" id="quality" type="range" min="1" max="5"> -->
+                            <fieldset class="starability-basic">
+                                <input type="radio" id="quality" class="input-no-rate" name="comment[quality]" value="1" checked aria-label="No rating." />
+                                <input type="radio" id="first-rate1" name="comment[quality]" value="1" />
+                                <label for="first-rate1" title="Terrible">1 star</label>
+                                <input type="radio" id="first-rate2" name="comment[quality]" value="2" />
+                                <label for="first-rate2" title="Not good">2 stars</label>
+                                <input type="radio" id="first-rate3" name="comment[quality]" value="3" />
+                                <label for="first-rate3" title="Average">3 stars</label>
+                                <input type="radio" id="first-rate4" name="comment[quality]" value="4" />
+                                <label for="first-rate4" title="Very good">4 stars</label>
+                                <input type="radio" id="first-rate5" name="comment[quality]" value="5" />
+                                <label for="first-rate5" title="Amazing">5 stars</label>
+                            </fieldset>
                         </div>
                     </div>
                     <div class="col-6">
                         <div class="mb-3">
                             <label class="form-lable" for="difficulty">Rate the difficulty</label>
-                            <input class="form-range" name="comment[difficulty]" id="difficulty" type="range" min="1" max="5">
+                            <!-- <input class="form-range" name="comment[difficulty]" id="difficulty" type="range" min="1" max="5"> -->
+                            <fieldset class="starability-basic">
+                                <input type="radio" id="difficulty" class="input-no-rate" name="comment[difficulty]" value="1" checked aria-label="No rating." />
+                                <input type="radio" id="second-rate1" name="comment[difficulty]" value="1" />
+                                <label for="second-rate1" title="Terrible">1 star</label>
+                                <input type="radio" id="second-rate2" name="comment[difficulty]" value="2" />
+                                <label for="second-rate2" title="Not good">2 stars</label>
+                                <input type="radio" id="second-rate3" name="comment[difficulty]" value="3" />
+                                <label for="second-rate3" title="Average">3 stars</label>
+                                <input type="radio" id="second-rate4" name="comment[difficulty]" value="4" />
+                                <label for="second-rate4" title="Very good">4 stars</label>
+                                <input type="radio" id="second-rate5" name="comment[difficulty]" value="5" />
+                                <label for="second-rate5" title="Amazing">5 stars</label>
+                              </fieldset>
                         </div>
                     </div>
                 </div>
