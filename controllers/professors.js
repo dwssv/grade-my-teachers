@@ -1,6 +1,5 @@
 const Professor = require('../models/professor')
 const departments = require('../seeds/departments')
-const users = require('../controllers/users')
 module.exports.index = async (req, res) => {
     const professor = await Professor.find({})
     res.render('professors/index', { professor })

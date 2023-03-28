@@ -9,6 +9,7 @@ const methodOverride = require('method-override')
 const passport = require('passport')
 const LocalStrategy = require('passport-local')
 const User = require('./models/user')
+const mongoSanitize = require('express-mongo-sanitize');
 
 // require routes
 const userRoutes = require('./routes/users')
@@ -39,14 +40,17 @@ app.use(methodOverride('_method'))
 // public directories hold static files such as javascript, css, and images
 // the browser can access these files hence the name "public "
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(mongoSanitize());
 
 // session configuration objects
 const sessionConfig = {
+    name: 'session',
     secret: 'thisshouldbeabettersecret',
     resave: false,
     saveUninitialized: true,
     cookie: {
         httpOnly: true,
+        // secure: true,
         exprires: Date.now() + 1000 * 60 * 60  * 24 * 7,
         maxAge: 1000 * 60 * 60  * 24 * 7
     }
