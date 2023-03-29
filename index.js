@@ -20,8 +20,10 @@ const helmet = require('helmet')
 const userRoutes = require('./routes/users')
 const professorsRoutes = require('./routes/professors')
 const commentsRoutes = require('./routes/comments')
+const dbUrl = process.env.DB_URL
 
 // handle initial connection error
+// mongoose.connect(dbUrl)
 mongoose.connect('mongodb://127.0.0.1:27017/rate-my-teachers')
     .then(() => console.log('mongo connection open!!!!'))
     .catch((e) => console.log('mongo error', e))
