@@ -11,7 +11,7 @@ body {
   max-width: 70vw;
 }
 
-.nav-link {
+.nav-link, .nav-link:active {
     padding: 0.25rem 0;
     font-weight: 600;
     color: rgba(255,255,255,0.5);
