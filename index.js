@@ -16,15 +16,17 @@ const User = require('./models/user')
 const mongoSanitize = require('express-mongo-sanitize');
 const helmet = require('helmet')
 
+const MongoStore = require('connect-mongo');
+
 // require routes
 const userRoutes = require('./routes/users')
 const professorsRoutes = require('./routes/professors')
 const commentsRoutes = require('./routes/comments')
-const dbUrl = process.env.DB_URL
+// const mongoUrl = process.env.DB_URL
+const mongoUrl = 'mongodb://127.0.0.1:27017/rate-my-teachers'
 
 // handle initial connection error
-// mongoose.connect(dbUrl)
-mongoose.connect('mongodb://127.0.0.1:27017/rate-my-teachers')
+mongoose.connect(mongoUrl)
     .then(() => console.log('mongo connection open!!!!'))
     .catch((e) => console.log('mongo error', e))
 
@@ -49,10 +51,22 @@ app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(mongoSanitize());
 
-// session configuration objects
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!'
+
+const store = new MongoStore({
+    mongoUrl,
+    secret,
+    touchAfter:  24 * 60 * 60
+})
+
+store.on('error', function(e){
+    console.log('session store error', e)
+})
+
 const sessionConfig = {
+    store: store,
     name: 'session',
-    secret: 'thisshouldbeabettersecret',
+    secret,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -141,6 +155,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, () => {
-    console.log('serving on port 3000')
+const port = process.env.PORT || 3000
+app.listen(port, () => {
+    console.log('serving!!!')
 })
