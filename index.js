@@ -22,8 +22,8 @@ const MongoStore = require('connect-mongo');
 const userRoutes = require('./routes/users')
 const professorsRoutes = require('./routes/professors')
 const commentsRoutes = require('./routes/comments')
-// const mongoUrl = process.env.DB_URL
-const mongoUrl = 'mongodb://127.0.0.1:27017/rate-my-teachers'
+const mongoUrl = process.env.DB_URL
+// const mongoUrl = 'mongodb://127.0.0.1:27017/rate-my-teachers'
 
 // handle initial connection error
 mongoose.connect(mongoUrl)
